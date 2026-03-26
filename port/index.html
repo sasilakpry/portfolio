@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #14b8a6;
+            --primary-light: #ccfbf1;
+            --primary-dark: #0f766e;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
+
+        * { box-sizing: border-box; font-family: 'Kanit', sans-serif; }
+        body { background-color: var(--bg); color: var(--text-main); margin: 0; padding-bottom: 50px; line-height: 1.6; }
+
+        header { background: var(--card-bg); text-align: center; padding: 2.5rem 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .profile-img { width: 130px; height: 130px; border-radius: 50%; background: #eee; margin-bottom: 1rem; object-fit: cover; border: 4px solid var(--primary-light); }
+        
+        nav { display: flex; justify-content: center; background: var(--card-bg); position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--primary-light); overflow-x: auto; }
+        .tab-btn { padding: 1rem 1.2rem; border: none; background: none; cursor: pointer; font-size: 0.95rem; color: var(--text-sub); transition: 0.3s; border-bottom: 3px solid transparent; white-space: nowrap; }
+        .tab-btn.active { color: var(--primary-dark); border-bottom-color: var(--primary); font-weight: 600; background-color: var(--primary-light); }
+
+        .container { max-width: 1000px; margin: 2rem auto; padding: 0 1.5rem; }
+        .tab-content { display: none; animation: fadeIn 0.4s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+
+        .card { background: var(--card-bg); padding: 1.5rem; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); margin-bottom: 1rem; }
+        .clickable { cursor: pointer; transition: 0.3s; }
+        .clickable:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: var(--primary); }
+        
+        .img-holder { width: 100%; border-radius: 10px; background: #f1f5f9; aspect-ratio: 16/9; object-fit: cover; margin-bottom: 1rem; }
+        .badge { display: inline-block; padding: 0.2rem 0.8rem; background: var(--primary-light); color: var(--primary-dark); border-radius: 20px; font-size: 0.8rem; margin-bottom: 0.5rem; }
+
+        /* Style เพิ่มเติมสำหรับหน้า About */
+        .skill-item { margin-bottom: 15px; }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.9rem; }
+        .skill-bar-bg { background: #e2e8f0; height: 8px; border-radius: 10px; overflow: hidden; }
+        .skill-bar-fill { background: var(--primary); height: 100%; border-radius: 10px; width: 0; transition: width 1.5s ease-in-out; }
+
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 5vh auto; padding: 2rem; border-radius: 20px; max-width: 650px; width: 90%; position: relative; animation: zoom 0.3s ease; max-height: 90vh; overflow-y: auto; text-align: center; }
+        @keyframes zoom { from {transform: scale(0.9); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+        .close { position: absolute; right: 20px; top: 10px; font-size: 30px; cursor: pointer; color: #aaa; }
+        
+        .modal-btn { 
+            display: inline-block; background-color: var(--primary); color: white; 
+            padding: 12px 25px; border-radius: 8px; text-decoration: none; 
+            font-weight: 600; margin-top: 15px; transition: 0.3s;
+        }
+        .modal-btn:hover { background-color: var(--primary-dark); }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="นส.jpg" class="profile-img" alt="Profile">
+    <h1>Sasilak Wongyara</h1>
+    <p>ยินดีต้อนรับสู่ Portfolio ออนไลน์ของฉัน</p>
+</header>
+
+<nav>
+    <button class="tab-btn active" onclick="openTab(event, 'home')">หน้าแรก</button>
+    <button class="tab-btn" onclick="openTab(event, 'about')">เกี่ยวกับฉัน</button>
+    <button class="tab-btn" onclick="openTab(event, 'works')">ผลงาน</button>
+    <button class="tab-btn" onclick="openTab(event, 'activities')">กิจกรรม</button>
+    <button class="tab-btn" onclick="openTab(event, 'certs')">เกียรติบัตร</button>
+</nav>
+
+<div class="container">
+    <div id="home" class="tab-content active">
+        <div class="card">
+            <h2 style="color: var(--primary-dark);">ยินดีต้อนรับ 👋</h2>
+            <p>สวัสดีค่ะ ฉัน <b>ศศิลักษมี์ วงศ์ยะรา</b> ยินดีต้อนรับเข้าสู่พื้นที่รวบรวมการเรียนรู้และประสบการณ์ตลอดระยะเวลาที่ผ่านมา เว็บไซต์นี้ไม่ได้เป็นเพียงที่รวบรวมผลงานเท่านั้น แต่ยังเป็นบันทึกการเติบโตในด้านเทคโนโลยีและการออกแบบที่ฉันชอบ<br><br>
+            ฉันเชื่อเสมอว่า 'การเรียนรู้ไม่มีที่สิ้นสุด' ผลงานในส่วน IoT และการออกแบบ UI/UX ที่คุณจะได้เห็น คือความพยายามในการประยุกต์ใช้ความรู้มาแก้ไขปัญหาจริง เชิญเลือกชมผลงานและทำความรู้จักกับตัวตนของฉันผ่านเมนูต่างๆ ได้เลยค่ะ</p>
+        </div>
+    </div>
+
+    <div id="about" class="tab-content">
+        <div class="grid-2">
+            <div class="card">
+                <h2 style="border-left: 5px solid var(--primary); padding-left: 15px; color: var(--primary-dark);">ข้อมูลส่วนตัว</h2>
+                <p><b>🎓 การศึกษา:</b> ม.เกษตรศาสตร์ กำแพงแสน (IT ปี 3)</p>
+                <p><b>📍 ที่อยู่:</b> 291 ถ.เกษตรสิน ต.ลำพยา อ.เมือง จ.นครปฐม</p>
+                <p><b>📧 อีเมล:</b> sasilakpry@gmail.com</p>
+                <p><b>🆔 Line:</b> para_ray</p>
+                <p><b>📞 เบอร์โทร:</b> 088-225-3303</p>
+                <p><b>🔗 GitHub:</b> <a href="https://github.com/sasilakpry" target="_blank" style="color: var(--primary-dark);">github.com/sasilakpry</a></p>
+            </div>
+
+            <div class="card">
+                <h2 style="border-left: 5px solid var(--primary); padding-left: 15px; color: var(--primary-dark);">ความเชี่ยวชาญ</h2>
+                
+                <div class="skill-item">
+                    <div class="skill-info"><span>UI/UX Design (Figma)</span><span>85%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-percent="85%"></div></div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info"><span>Web Development (HTML/CSS/JS)</span><span>75%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-percent="75%"></div></div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info"><span>Python & IoT</span><span>70%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-percent="70%"></div></div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-info"><span>Flutter (Mobile App)</span><span>60%</span></div>
+                    <div class="skill-bar-bg"><div class="skill-bar-fill" data-percent="60%"></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="works" class="tab-content">
+        <div class="grid-3" id="worksGrid"></div>
+    </div>
+
+    <div id="activities" class="tab-content">
+        <div class="grid-3" id="actGrid"></div>
+    </div>
+
+    <div id="certs" class="tab-content">
+        <div class="grid-2" id="certsGrid"></div>
+    </div>
+</div>
+
+<div id="modal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="modal-img" src="" style="width:100%; border-radius:10px; display: none;">
+        <video id="modal-video" width="100%" controls style="display: none; border-radius: 10px; margin-bottom: 1rem;">
+            <source src="" type="video/mp4">
+        </video>
+        <h2 id="modal-title" style="margin-top:1rem; color:var(--primary-dark)"></h2>
+        <p id="modal-desc" style="text-align: left;"></p>
+        <a id="modal-link-btn" href="#" target="_blank" class="modal-btn">🌐 เปิดดูผลงานจริง</a>
+    </div>
+</div>
+
+<script>
+    const worksData = [
+        { t: 'ผลงาน Figma', d: 'ออกแบบหน้าเว็ปไซด์ขายของออนไลน์', img: '40.png', video: '', link: 'https://www.figma.com/design/igfe7MmJpYyre4e29RCbkQ/Untitled?node-id=0-1&t=XLv8AYj0U3ZAcbHw-1' },
+        { t: 'ผลงาน Figma', d: 'ออกแบบแอปพลิเคชั่นขายอาหารเดลิเวอรี่', img: '1.png', video: '', link: 'https://www.figma.com/design/aWG1ZX1DyGY4Fwy6avAu2s/Untitled?node-id=0-1&t=11NtE6oXFE7qTAGm-1' },
+        { t: 'ผลงาน css+html', d: 'ออกแบบเว็ปไซด์ร้านขายเครื่องสำอางออนไลน์', img: '2.png', video: '', link: 'https://github.com/sasilakpry/website.git' },
+        { t: 'ผลงาน css+html', d: 'ออกแบบเว็ปไซด์ร้านขายของออนไลน์', img: '3.png', video: '', link: 'https://online-shop-d61v.vercel.app/' },
+        { t: 'ผลงาน Iot', d: 'ระบบตรวจจับที่จอดรถอัตโนมัติ', img: '5.png', video: '4.mp4', link: 'npx plugins add vercel/vercel-plugin' }
+    ];
+
+    const actData = [
+        { t: 'กิจกรรมรับน้อง', d: 'ต้อนรับน้องปี 1 สาขาเทคโนโลยีสารสนเทศ', img: 'รับน้อง.jpg', b: '2568', video: '', link: '' },
+        { t: 'ศึกษาดูงาน', d: 'ไปดูระบบ Iot ที่ฟาร์มแกะ จังหวัดสระบุรี', img: 'iot.jpg', b: '2569', video: '', link: '' },
+        { t: 'ศึกษาดูงาน', d: 'เรียนรู้การทำงานของบริษัท INET', img: 'inet.jpg', b: '2569', video: '', link: '' }
+    ];
+
+    const certsData = [
+        { t: 'CSS', d: '', img: 'ก1.jpg', video: '', link: 'https://www.hackerrank.com/certificates/1c4414805835' },
+        { t: 'SQL', d: '', img: 'ก2.png', video: '', link: 'https://www.hackerrank.com/certificates/05192359f0f9' },
+        { t: 'JavaScript', d: '', img: 'ก3.jpg', video: '', link: 'https://www.hackerrank.com/certificates/f4a1dc1d5940' },
+        { t: 'Api', d: '', img: 'ก.4.png', video: '', link: 'https://www.hackerrank.com/certificates/be81d08e5508' }
+    ];
+
+    function renderCards(data, targetId) {
+        const target = document.getElementById(targetId);
+        data.forEach(item => {
+            target.innerHTML += `
+                <div class="card clickable" onclick="showDetail('${item.t}', '${item.d}', '${item.img}', '${item.video}', '${item.link}')">
+                    <img src="${item.img}" class="img-holder" onerror="this.src='https://via.placeholder.com/400x250?text=No+Image'">
+                    ${item.b ? `<span class="badge">${item.b}</span>` : ''}
+                    <h3>${item.t}</h3>
+                    <p>คลิกเพื่อดูรายละเอียด</p>
+                </div>`;
+        });
+    }
+
+    renderCards(worksData, 'worksGrid');
+    renderCards(actData, 'actGrid');
+    renderCards(certsData, 'certsGrid');
+
+    function openTab(evt, name) {
+        let content = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < content.length; i++) content[i].classList.remove("active");
+        let btns = document.getElementsByClassName("tab-btn");
+        for (let i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+        document.getElementById(name).classList.add("active");
+        evt.currentTarget.classList.add("active");
+
+        // ถ้าเปิดหน้า About ให้แอนิเมชันแถบสกิลทำงาน
+        if (name === 'about') {
+            setTimeout(() => {
+                const bars = document.querySelectorAll('.skill-bar-fill');
+                bars.forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-percent');
+                });
+            }, 100);
+        } else {
+            // รีเซ็ตความกว้างเมื่อไปหน้าอื่น เพื่อให้มันวิ่งใหม่เวลาคนกดเข้ามา
+            const bars = document.querySelectorAll('.skill-bar-fill');
+            bars.forEach(bar => bar.style.width = '0');
+        }
+    }
+
+    function showDetail(title, desc, img, video, link) {
+        document.getElementById("modal-title").innerText = title;
+        document.getElementById("modal-desc").innerText = desc;
+        const imgEl = document.getElementById("modal-img");
+        const videoEl = document.getElementById("modal-video");
+        
+        if (video && video !== '') {
+            imgEl.style.display = "none";
+            videoEl.style.display = "block";
+            videoEl.src = video;
+            videoEl.play();
+        } else {
+            videoEl.style.display = "none";
+            videoEl.pause();
+            imgEl.style.display = "block";
+            imgEl.src = img;
+        }
+        
+        const btn = document.getElementById("modal-link-btn");
+        if(link && link !== 'undefined' && link !== '') {
+            btn.href = link;
+            btn.style.display = "inline-block";
+        } else {
+            btn.style.display = "none";
+        }
+        document.getElementById("modal").style.display = "block";
+        document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+        const videoEl = document.getElementById("modal-video");
+        videoEl.pause();
+        videoEl.src = ""; 
+        document.getElementById("modal").style.display = "none";
+        document.body.style.overflow = "auto";
+    }
+</script>
+</body>
+</html>
